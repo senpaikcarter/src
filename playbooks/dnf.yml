@@ -1,0 +1,33 @@
+---
+
+- name: Install Packages
+  hosts: 
+  - localhost
+  become: true
+ 
+  pre_tasks: 
+    - name: Update all repositories
+      dnf: 
+       update_cache: yes 
+
+    - name: Upgrade all packages
+      dnf: 
+        name: "*" 
+        state: latest
+  
+  tasks:
+    - name: Installing dnf packages 
+      package: 
+        name: 
+          - snapd
+          - git
+          - google-chrome-stable
+          - cifs-utils
+          - unzip
+          - ack
+          - fzf
+
+    - name: installing snap packages
+      snap: 
+        name: 
+          - spotify

@@ -1,0 +1,16 @@
+---
+
+- name: zsh customization and update 
+  hosts: localhost
+  become: false
+ 
+  tasks:
+    - name: copy .zshrc file
+      copy: 
+        src: ~/src/dotfiles/zshrc
+        dest: /home/kenny/.zshrc
+        owner: kenny
+        group: kenny
+
+          #- name: Running Vim Update
+          #shell: /home/kenny/src/scripts/pluginInstall.sh 

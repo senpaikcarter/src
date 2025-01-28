@@ -1,0 +1,98 @@
+set nocompatible
+filetype off
+
+" Set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+
+" Download plug-ins to the ~/.vim/plugged/ directory
+call vundle#begin('~/.vim/plugged')
+
+" Let Vundle manage Vundle
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'jiangiao/auto-pairs'
+Plugin 'preservim/nerdtree'
+Plugin 'preservim/tagbar'
+Plugin 'dyng/ctrlsf.vim'
+Plugin 'junegunn.zfz'
+Plugin 'junegunn/fzf.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Raimondi/delimitMate'
+Plugin 'hashivim/vim-terraform'
+
+call vundle#end()
+filetype plugin indent on
+
+set nu
+syntax on
+
+" How many columns of whitespace a \t is worth
+set tabstop=4 " How many columns of whitespace a "level of indentation" is worth
+set shiftwidth=4 " Use spaces when tabbing
+set expandtab
+
+set incsearch
+set hlsearch
+
+set termwinsize=12x0
+set splitbelow
+set mouse=a
+
+" Setting Toggle for auto-pairs 
+let g:AutoPairsShortcutToggle = '<C-P>'
+
+" Settings for NerdTree
+let NERDTreeShowBookmarks = 1   " Show the bookmarks table
+let NERDTreeShowHidden = 1      " Show hidden files
+let NERDTreeShowLineNumbers = 0 " Hide line numbers
+let g:NERDTreeWinPos = 0
+let NERDTreeWinSize = 31        " Set panel width to 31 columns
+
+nmap <F2> :NERDTreeToggle<CR>
+
+" Settings for tagbar
+" Focus the panel when opening it
+let g:tagbar_autofocus = 1" Highlight the active tag
+let g:tagbar_autoshowtag = 1" Make panel vertical and place on the right
+let g:tagbar_position = 'botright vertical'" Mapping to open and close the panel
+nmap <F8> :TagbarToggle<CR>
+
+" Settings for ctrlsf
+" Use the ack tool as the backend
+let g:ctrlsf_backend = 'ack'" Auto close the results panel when opening a file
+let g:ctrlsf_auto_close = { "normal":0, "compact":0 }" Immediately switch focus to the search window
+let g:ctrlsf_auto_focus = { "at":"start" }" Don't open the preview window automatically
+let g:ctrlsf_auto_preview = 0" Use the smart case sensitivity search scheme
+let g:ctrlsf_case_sensitive = 'smart' " Normal mode, not compact mode
+let g:ctrlsf_default_view = 'normal' " Use absoulte search by default
+let g:ctrlsf_regex_pattern = 0 " Position of the search window
+let g:ctrlsf_position = 'right' " Width or height of search window
+let g:ctrlsf_winsize = '46' " Search from the current working directory
+let g:ctrlsf_default_root = 'cwd'
+
+" Hotkeys for ctrlsf
+" (Ctrl+F) Open search prompt (Normal Mode)
+nmap <C-F>f <Plug>CtrlSFPrompt 
+" (Ctrl-F + f) Open search prompt with selection (Visual Mode)
+xmap <C-F>f <Plug>CtrlSFVwordPath
+" (Ctrl-F + F) Perform search with selection (Visual Mode)
+xmap <C-F>F <Plug>CtrlSFVwordExec
+" (Ctrl-F + n) Open search prompt with current word (Normal Mode)
+nmap <C-F>n <Plug>CtrlSFCwordPath
+" (Ctrl-F + o )Open CtrlSF window (Normal Mode)
+nnoremap <C-F>o :CtrlSFOpen<CR>
+" (Ctrl-F + t) Toggle CtrlSF window (Normal Mode)
+nnoremap <C-F>t :CtrlSFToggle<CR>
+" (Ctrl-F + t) Toggle CtrlSF window (Insert Mode)
+inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
+
+
+" Set theme for bottom bar
+
+
+
+" Settings for Indent Guides
+let g:indent_guides_enable_on_vim_startup = 1

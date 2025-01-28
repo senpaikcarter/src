@@ -1,0 +1,9 @@
+---
+
+- name: Vim Customization and Config
+  hosts: localhost
+  become: false
+ 
+  tasks:
+    #- name: Installing Oh-my-zsh
+    #  shell: /home/kenny/src/scripts/oh-my-zsh.sh

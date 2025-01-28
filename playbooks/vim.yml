@@ -1,0 +1,39 @@
+---
+
+- name: Vim Customization and Config
+  hosts: 
+  - workstation
+  become: false
+ 
+  tasks:
+    - name: create directory for vundle
+      file: 
+        path: /home/kenny/.vim
+        state: directory
+        mode: '0755'
+    
+    - name: create directory for bundle
+      file: 
+        path: /home/kenny/.vim/bundle
+        state: directory
+        mode: '0755'
+
+    - name: clone repo for vundle
+      git: 
+        repo: 'https://github.com/VundleVim/Vundle.vim.git'
+        dest: /home/kenny/.vim/bundle/Vundle.vim
+        clone: yes
+        update: no 
+    
+    - name: copy .vimrc file
+      copy: 
+        src: ~/src/dotfiles/vimrc
+        dest: /home/kenny/.vimrc
+        owner: kenny
+        group: kenny
+    
+    - name: copy Vim Update Script
+      script: /home/kenny/src/scripts/puginInstall.sh
+
+        #    - name: Running Vim Update
+        #shell: /home/kenny/src/scripts/pluginInstall.sh 

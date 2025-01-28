@@ -1,0 +1,4 @@
+*.tar.gz
+*.AppImage
+scripts/aws/*
+*.zip

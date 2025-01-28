@@ -1,0 +1,13 @@
+---
+
+- name: Copy Dotfiles
+  hosts: localhost
+  become: false
+ 
+  tasks:
+    - name: copy .zshrc file
+      copy: 
+        src: ~/src/dotfiles/zshrc
+        dest: /home/kenny/.zshrc
+        owner: kenny
+        group: kenny
