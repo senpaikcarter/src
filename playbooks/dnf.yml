@@ -26,6 +26,7 @@
           - unzip
           - ack
           - fzf
+          - dnf-plugins-core
 
     - name: installing snap packages
       snap: 
