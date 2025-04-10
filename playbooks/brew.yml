@@ -8,7 +8,8 @@
     brew_packages: 
      # - leapp # currently not working on linux
       - k9s
-      - leapp
+        #- leapp
+      - helm
     install_homebrew_if_missing: false
     upgrade_homebrew_packages: false
 
