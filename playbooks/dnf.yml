@@ -27,6 +27,8 @@
           - ack
           - fzf
           - dnf-plugins-core
+          - cifs-utils
+          - nmap
 
     - name: installing snap packages
       snap: 
