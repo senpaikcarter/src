@@ -29,6 +29,10 @@
           - dnf-plugins-core
           - cifs-utils
           - nmap
+          - zsh
+          - powerline-fonts
+          - powerline
+          - vim
 
     - name: installing snap packages
       snap: 

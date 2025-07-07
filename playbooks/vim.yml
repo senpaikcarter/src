@@ -2,7 +2,7 @@
 
 - name: Vim Customization and Config
   hosts: 
-  - workstation
+  - localhost
   become: false
  
   tasks:
@@ -32,8 +32,8 @@
         owner: kenny
         group: kenny
     
-    - name: copy Vim Update Script
-      script: /home/kenny/src/scripts/puginInstall.sh
+    #- name: copy Vim Update Script
+    #  script: /home/kenny/src/scripts/puginInstall.sh
 
         #    - name: Running Vim Update
         #shell: /home/kenny/src/scripts/pluginInstall.sh 

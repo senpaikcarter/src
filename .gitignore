@@ -2,3 +2,4 @@
 *.AppImage
 scripts/aws/*
 *.zip
+aws/*
