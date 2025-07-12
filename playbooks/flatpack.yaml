@@ -1,0 +1,22 @@
+---
+
+- name: Install Brew Packages
+  hosts: localhost
+  become: false
+  vars: 
+    flatpack_packages: 
+      - md.obsidian.Obsidian
+
+  tasks:
+    - name: Install obsidian
+      flatpak:
+        name: md.obsidian.Obsidian
+        state: present
+    
+        #- name: Installing FlatPacks
+        #homebrew:
+        #name: "{{ flatpack_packages }}"
+        #state: present
+        #register: result
+        #until: result is successful
+
