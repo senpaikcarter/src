@@ -33,6 +33,7 @@
           - powerline-fonts
           - powerline
           - vim
+          - neovim
 
     - name: installing snap packages
       snap: 

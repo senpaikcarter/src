@@ -11,6 +11,8 @@
         #- leapp
       - helm
       - kubectl
+      - hashicorp/tap/terraform-ls
+      - tflint
     install_homebrew_if_missing: false
     upgrade_homebrew_packages: false
 
@@ -27,6 +29,16 @@
         - not homebrew_check.stat.exists
         - not install_homebrew_if_missing
   tasks: 
+    - name: Tap HashiCorp
+      homebrew_tap:
+        name: hashicorp/tap
+        state: present
+
+    - name: Install terraform-ls
+      homebrew:
+        name: terraform-ls
+        state: present
+
     - name: Installing Homebrew Packages
       homebrew:
         name: "{{ brew_packages }}"
