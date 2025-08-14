@@ -116,3 +116,8 @@ export RAPID_API_FORECAST_KEY="575c16f4abmsh3950a6b362c6a83p1d1411jsna08b47e6e37
 
 # set variable for k9s because nano is mid
 export KUBE_EDITOR="/usr/bin/vim"
+
+
+
+
+tmux
