@@ -11,3 +11,15 @@
         dest: /home/kenny/.zshrc
         owner: kenny
         group: kenny
+        
+    - name: clone repo for tmux tpm
+      git: 
+        repo: 'https://github.com/tmux-plugins/tpm'
+        dest: ~/.tmux/plugins/tpm
+        clone: yes
+        update: no 
+
+    - name: copy tmux.conf
+      copy: 
+        src: ~/src/dotfiles/tmux.conf
+        dest: ~/.tmux.conf
