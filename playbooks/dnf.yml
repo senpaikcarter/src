@@ -39,3 +39,4 @@
       snap: 
         name: 
           - spotify
+          - yq 
