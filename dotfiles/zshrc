@@ -111,13 +111,16 @@ complete -C '/usr/local/bin/aws_completer' aws
 
 alias k="kubectl"
 
+alias curseforge="~/src/scripts/curseforge/CurseForge-1.288.0-28211.AppImage"
+
 # Set env var for dinner menu
 export RAPID_API_FORECAST_KEY="575c16f4abmsh3950a6b362c6a83p1d1411jsna08b47e6e378"
 
 # set variable for k9s because nano is mid
 export KUBE_EDITOR="/usr/bin/vim"
 
-
+# pipx
+export PATH="$HOME/.local/bin:$PATH"
 
 
 tmux
