@@ -2,7 +2,7 @@
 
 - name: Install Packages
   hosts: 
-  - workstation
+  - localhost
   become: true
   remote_user: kenny
  
@@ -17,7 +17,7 @@
         state: latest
   
   tasks:
-    - name: Installing dnf packages 
+    - name: Installing apt packages 
       package: 
         name: 
           - snapd
@@ -27,8 +27,26 @@
           - unzip
           - ack
           - fzf
+          - zsh
+          - powerline 
+          - fonts-powerline
+          - python3-pip
+          - steam 
+          - dnsutils
 
     - name: installing snap packages
       snap: 
         name: 
           - spotify
+          - discord
+          - yq
+
+    - name: install vscode
+      snap: 
+        name: code
+        classic: yes
+
+    - name: install neovim
+      snap: 
+        name: nvim
+        classic: yes
