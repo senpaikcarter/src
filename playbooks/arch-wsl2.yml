@@ -1,0 +1,6 @@
+---
+
+- import_playbook: pacman.yml
+- import_playbook: brew.yml
+- import_playbook: dotfiles.yml
+- import_playbook: neovim.yml

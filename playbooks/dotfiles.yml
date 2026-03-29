@@ -2,24 +2,33 @@
 
 - name: Copy Dotfiles
   hosts: localhost
+  connection: local
   become: false
+  vars:
+    home_dir: "{{ ansible_facts['env']['HOME'] }}"
+    repo_root: "{{ ansible_facts['env']['HOME'] }}/src"
  
   tasks:
+    - name: clone repo for oh-my-zsh
+      git:
+        repo: 'https://github.com/ohmyzsh/ohmyzsh'
+        dest: "{{ home_dir }}/.oh-my-zsh"
+        clone: yes
+        update: no
+
     - name: copy .zshrc file
       copy: 
-        src: ~/src/dotfiles/zshrc
-        dest: /home/kenny/.zshrc
-        owner: kenny
-        group: kenny
+        src: "{{ repo_root }}/dotfiles/zshrc"
+        dest: "{{ home_dir }}/.zshrc"
         
     - name: clone repo for tmux tpm
       git: 
         repo: 'https://github.com/tmux-plugins/tpm'
-        dest: ~/.tmux/plugins/tpm
+        dest: "{{ home_dir }}/.tmux/plugins/tpm"
         clone: yes
         update: no 
 
     - name: copy tmux.conf
       copy: 
-        src: ~/src/dotfiles/tmux.conf
-        dest: ~/.tmux.conf
+        src: "{{ repo_root }}/dotfiles/tmux.conf"
+        dest: "{{ home_dir }}/.tmux.conf"

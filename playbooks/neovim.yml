@@ -3,39 +3,44 @@
 - name: Vim Customization and Config
   hosts: 
   - localhost
+  connection: local
   become: false
+  vars:
+    home_dir: "{{ ansible_facts['env']['HOME'] }}"
+    repo_root: "{{ ansible_facts['env']['HOME'] }}/src"
  
   tasks:
     - name: create directory for neovim config
       file: 
-        path: /home/kenny/.config/nvim/
+        path: "{{ home_dir }}/.config/nvim/"
         state: directory
         mode: '0755'
     - name: create directory for lazy lua config
       file: 
-        path: /home/kenny/.config/nvim/lua/config/
+        path: "{{ home_dir }}/.config/nvim/lua/config/"
+        state: directory
+        mode: '0755'
+    - name: create directory for vim plugin pack
+      file:
+        path: "{{ home_dir }}/.vim/pack/plugins/start/"
         state: directory
         mode: '0755'
     - name: copy init.lua file
       copy:
-        src: /home/kenny/src/dotfiles/init.lua
-        dest: /home/kenny/.config/nvim/init.lua
-        owner: kenny
-        group: kenny 
+        src: "{{ repo_root }}/dotfiles/init.lua"
+        dest: "{{ home_dir }}/.config/nvim/init.lua"
     - name: copy plugins.lua file
       copy: 
-        src: /home/kenny/src/dotfiles/plugins.lua
-        dest: /home/kenny/.config/nvim/lua/config/plugins.lua
+        src: "{{ repo_root }}/dotfiles/plugins.lua"
+        dest: "{{ home_dir }}/.config/nvim/lua/config/plugins.lua"
 
     - name: copy lazy.lua
       copy: 
-        src: /home/kenny/src/dotfiles/lazy.lua
-        dest: /home/kenny/.config/nvim/lua/config/lazy.lua
-        owner: kenny
-        group: kenny
+        src: "{{ repo_root }}/dotfiles/lazy.lua"
+        dest: "{{ home_dir }}/.config/nvim/lua/config/lazy.lua"
     - name: clone repo for vim-terraform
       git:
         repo: 'https://github.com/hashivim/vim-terraform.git'
-        dest: /home/kenny/.vim/pack/plugins/start/vim-terraform
+        dest: "{{ home_dir }}/.vim/pack/plugins/start/vim-terraform"
         clone: yes
         update: no

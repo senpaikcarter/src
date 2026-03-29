@@ -1,0 +1,36 @@
+---
+
+- name: Install Arch Linux Packages
+  hosts:
+  - localhost
+  connection: local
+  become: true
+
+  tasks:
+    - name: Refresh pacman database and upgrade packages
+      command: pacman -Syu --noconfirm
+      changed_when: false
+
+    - name: Install Arch packages required for this workstation
+      package:
+        name:
+          - ansible
+          - base-devel
+          - curl
+          - fd
+          - fzf
+          - git
+          - neovim
+          - nodejs
+          - npm
+          - openssh
+          - python
+          - python-pip
+          - python-pynvim
+          - ripgrep
+          - tmux
+          - tree-sitter
+          - unzip
+          - wget
+          - zsh
+        state: present

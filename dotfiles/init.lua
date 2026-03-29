@@ -13,31 +13,46 @@ vim.api.nvim_create_autocmd("InsertLeave", {
   callback = function() vim.opt.relativenumber = true end,
 })
 
+local opts = { noremap = true, silent = true }
+
 require("config.lazy")
 
-require("nvim-tree").setup()
-vim.keymap.set('n', '<leader>tr', ':NvimTreeToggle<CR>', { noremap = true, silent = true })  
+local nvim_tree_ok, nvim_tree = pcall(require, "nvim-tree")
+if nvim_tree_ok then
+  nvim_tree.setup()
+  vim.keymap.set('n', '<leader>tr', ':NvimTreeToggle<CR>', opts)
+end
 
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-}
+local treesitter_ok, treesitter = pcall(require, "nvim-treesitter.configs")
+if treesitter_ok then
+  treesitter.setup {
+    ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
+  }
+end
 
 vim.cmd.colorscheme("oxocarbon")
 
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+local telescope_ok, builtin = pcall(require, 'telescope.builtin')
+if telescope_ok then
+  vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+  vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+  vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+  vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+end
 
-local lspconfig = require("lspconfig")
-lspconfig.terraformls.setup({})
-lspconfig.tflint.setup({})
+if vim.fn.executable("terraform-ls") == 1 then
+  vim.lsp.config('terraformls', {})
+  vim.lsp.enable('terraformls')
+end
+
+if vim.fn.executable("tflint") == 1 then
+  vim.lsp.config('tflint', {})
+  vim.lsp.enable('tflint')
+end
 
 vim.cmd([[silent! autocmd! filetypedetect BufRead,BufNewFile *.tf]])
 vim.cmd([[autocmd BufRead,BufNewFile *.hcl set filetype=hcl]])

@@ -102,12 +102,18 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
 # AWS CLI Autocomplete
 autoload bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
-complete -C '/usr/local/bin/aws_completer' aws
+if [ -x /usr/bin/aws_completer ]; then
+  complete -C '/usr/bin/aws_completer' aws
+elif [ -x /usr/local/bin/aws_completer ]; then
+  complete -C '/usr/local/bin/aws_completer' aws
+fi
 
 alias k="kubectl"
 
@@ -123,4 +129,6 @@ export KUBE_EDITOR="/usr/bin/vim"
 export PATH="$HOME/.local/bin:$PATH"
 
 
-tmux
+if command -v tmux >/dev/null 2>&1 && [ -z "$TMUX" ] && [[ $- == *i* ]]; then
+  tmux attach -t main || tmux new -s main
+fi
