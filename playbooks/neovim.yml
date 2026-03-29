@@ -10,6 +10,21 @@
     repo_root: "{{ ansible_facts['env']['HOME'] }}/src"
  
   tasks:
+    - name: check if homebrew is installed
+      command: brew --prefix
+      register: brew_prefix
+      changed_when: false
+      failed_when: false
+
+    - name: install neovim lint tools with homebrew
+      homebrew:
+        name:
+          - hadolint
+          - golangci-lint
+          - ruff
+        state: present
+      when: brew_prefix.rc == 0
+
     - name: create directory for neovim config
       file: 
         path: "{{ home_dir }}/.config/nvim/"

@@ -26,6 +26,9 @@ return {
   -- neovim/nvim-lspconfig
   { "neovim/nvim-lspconfig" },
 
+  -- Async linting
+  { "mfussenegger/nvim-lint" },
+
   -- copilot
   { "github/copilot.vim" },
 

@@ -10,8 +10,16 @@
       - k9s
       - helm
       - kubectl
+      - gopls
+      - pyright
+      - bash-language-server
+      - dockerfile-language-server
+      - docker-compose-langserver
       - hashicorp/tap/terraform-ls
       - tflint
+      - hadolint
+      - golangci-lint
+      - ruff
       - azure-cli
     install_homebrew_if_missing: false
     upgrade_homebrew_packages: false
@@ -46,4 +54,3 @@
       register: result
       until: result is successful
       when: homebrew_check.stat.exists
-

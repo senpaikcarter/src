@@ -26,7 +26,21 @@ end
 local treesitter_ok, treesitter = pcall(require, "nvim-treesitter.configs")
 if treesitter_ok then
   treesitter.setup {
-    ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+    ensure_installed = {
+      "bash",
+      "c",
+      "dockerfile",
+      "go",
+      "hcl",
+      "lua",
+      "python",
+      "query",
+      "terraform",
+      "vim",
+      "vimdoc",
+      "markdown",
+      "markdown_inline",
+    },
     highlight = {
       enable = true,
       additional_vim_regex_highlighting = false,
@@ -44,20 +58,87 @@ if telescope_ok then
   vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 end
 
-if vim.fn.executable("terraform-ls") == 1 then
-  vim.lsp.config('terraformls', {})
-  vim.lsp.enable('terraformls')
+local lint_ok, lint = pcall(require, "lint")
+if lint_ok then
+  lint.linters_by_ft = {
+    dockerfile = { "hadolint" },
+    go = { "golangcilint" },
+    python = { "ruff" },
+  }
+
+  vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+    callback = function()
+      pcall(lint.try_lint)
+    end,
+  })
 end
 
-if vim.fn.executable("tflint") == 1 then
-  vim.lsp.config('tflint', {})
-  vim.lsp.enable('tflint')
+local function enable_lsp_if_available(server, config)
+  if vim.fn.executable(config.cmd[1]) == 1 then
+    vim.lsp.config(server, config)
+    vim.lsp.enable(server)
+  end
 end
+
+enable_lsp_if_available("terraformls", {
+  cmd = { "terraform-ls", "serve" },
+  filetypes = { "terraform", "terraform-vars" },
+  root_markers = { ".terraform", ".git" },
+})
+
+enable_lsp_if_available("tflint", {
+  cmd = { "tflint", "--langserver" },
+  filetypes = { "terraform" },
+  root_markers = { ".terraform", ".git", ".tflint.hcl" },
+})
+
+enable_lsp_if_available("gopls", {
+  cmd = { "gopls" },
+  filetypes = { "go", "gomod", "gowork", "gotmpl" },
+  root_markers = { "go.work", "go.mod", ".git" },
+})
+
+enable_lsp_if_available("pyright", {
+  cmd = { "pyright-langserver", "--stdio" },
+  filetypes = { "python" },
+  root_markers = {
+    "pyproject.toml",
+    "setup.py",
+    "setup.cfg",
+    "requirements.txt",
+    ".git",
+  },
+})
+
+enable_lsp_if_available("dockerls", {
+  cmd = { "docker-langserver", "--stdio" },
+  filetypes = { "dockerfile" },
+  root_markers = { "Dockerfile", ".git" },
+})
+
+enable_lsp_if_available("docker_compose_language_service", {
+  cmd = { "docker-compose-langserver", "--stdio" },
+  filetypes = { "yaml.docker-compose" },
+  root_markers = {
+    "compose.yaml",
+    "compose.yml",
+    "docker-compose.yaml",
+    "docker-compose.yml",
+    ".git",
+  },
+})
+
+enable_lsp_if_available("bashls", {
+  cmd = { "bash-language-server", "start" },
+  filetypes = { "bash", "sh", "zsh" },
+  root_markers = { ".git" },
+})
 
 vim.cmd([[silent! autocmd! filetypedetect BufRead,BufNewFile *.tf]])
 vim.cmd([[autocmd BufRead,BufNewFile *.hcl set filetype=hcl]])
 vim.cmd([[autocmd BufRead,BufNewFile .terraformrc,terraform.rc set filetype=hcl]])
 vim.cmd([[autocmd BufRead,BufNewFile *.tf,*.tfvars set filetype=terraform]])
+vim.cmd([[autocmd BufRead,BufNewFile *.tfvars.json set filetype=terraform-vars]])
 vim.cmd([[autocmd BufRead,BufNewFile *.tfstate,*.tfstate.backup set filetype=json]])
 
 vim.cmd([[let g:terraform_fmt_on_save=1]])
