@@ -46,12 +46,12 @@
         dest: "{{ home_dir }}/.config/nvim/init.lua"
     - name: copy plugins.lua file
       copy: 
-        src: "{{ repo_root }}/dotfiles/plugins.lua"
+        src: "{{ repo_root }}/dotfiles/lua/config/plugins.lua"
         dest: "{{ home_dir }}/.config/nvim/lua/config/plugins.lua"
 
     - name: copy lazy.lua
       copy: 
-        src: "{{ repo_root }}/dotfiles/lazy.lua"
+        src: "{{ repo_root }}/dotfiles/lua/config/lazy.lua"
         dest: "{{ home_dir }}/.config/nvim/lua/config/lazy.lua"
     - name: clone repo for vim-terraform
       git:
